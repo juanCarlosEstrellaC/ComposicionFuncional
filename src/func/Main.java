@@ -58,6 +58,12 @@ public class Main {
 		var funcionCompuesta2 = IComposicion.composicion2();
 		var fog2 = funcionCompuesta2.apply(f).apply(g).apply(2);
 		System.out.println("fog2 = f(g(x)) = "+fog2);
+		
+		var funcionCompuesta3 = IComposicion.composicion3(g, f);
+		var fog3 = funcionCompuesta3.apply(2);
+		System.out.println("fog3 = f(g(x)) = "+fog3);
+		
+
 
 	}
 

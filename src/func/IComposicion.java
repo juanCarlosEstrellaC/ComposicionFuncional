@@ -6,9 +6,11 @@ public interface IComposicion {
 
 	Function<Function<Integer, Integer>, Function<Function<Integer, Integer>, Function<Integer, Integer>>> composicion();
 
-	static Function<Function<Integer, Integer>, Function<Function<Integer, Integer>, Function<Integer, Integer>>> composicion2(){
+	static Function<Function<Integer, Integer>, Function<Function<Integer, Integer>, Function<Integer, Integer>>> composicion2() {
 		return fn -> (gn -> x -> gn.apply(fn.apply(x)));
 	}
 
-
+	static Function<Integer, Integer> composicion3(Function<Integer, Integer> f, Function<Integer, Integer> g) {
+		return x -> f.apply(g.apply(x));
+	}
 }
