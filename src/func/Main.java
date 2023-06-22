@@ -1,5 +1,7 @@
 package func;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Function;
 
 public class Main {
@@ -23,47 +25,79 @@ public class Main {
 //		System.out.println(c);
 //
 		// --------------------------  MODELIZACION DE COMPOSICIÓN DE FUNCIONES gof = g(f(x)) ---------------------
-
-		Function<Integer, Integer> f = x -> 3 * x;
-		Function<Integer, Integer> g = x -> x * x;
+//
+//		Function<Integer, Integer> f = x -> 3 * x;
+//		Function<Integer, Integer> g = x -> x * x;
+//		
+//		// 1. Usando la interface funcional Function:
+//			/* Así sería como normalmente he usado:
+//			 
+//			 	 F< I , I> sumarUno
+//		 		 F< Dominio, Rango> sumarUno
+//		 		 
+//				 Function<Integer, Integer> sumarUno = x -> x+1;
+//				 var v = sumarUno.apply(5);
+//				 System.out.println(v);
+//			
+//				Pero, en esta ocasión, el Function es de esta manera:
+//			    	
+//			    	F< F<I,I> , F<F<I,I>,F<I,I>>> compo
+//		 		    F< Dominio,       Rango     > compo
+//			 */
+//		
+//			Function<Function<Integer, Integer>, Function<Function<Integer, Integer>, Function<Integer, Integer>>> compo = fn -> (gn -> x -> gn.apply(fn.apply(x)));
+//			Integer d = compo.apply(f).apply(g).apply(2);
+//			System.out.println(d);
+//
+//
+//		
+//		// USANDO INTERFACES:
+//		IComposicion iComposicion = () -> fn -> (gn -> x -> gn.apply(fn.apply(x)));
+//		var funcionCompuesta = iComposicion.composicion();
+//		var fog = funcionCompuesta.apply(f).apply(g).apply(2);
+//		System.out.println("fog = f(g(x)) = "+fog);
+//		
+//		var funcionCompuesta2 = IComposicion.composicion2();
+//		var fog2 = funcionCompuesta2.apply(f).apply(g).apply(2);
+//		System.out.println("fog2 = f(g(x)) = "+fog2);
+//		
+//		var funcionCompuesta3 = IComposicion.composicion3(g, f);
+//		var fog3 = funcionCompuesta3.apply(2);
+//		System.out.println("fog3 = f(g(x)) = "+fog3);
 		
-		// 1. Usando la interface funcional Function:
-			/* Así sería como normalmente he usado:
-			 
-			 	 F< I , I> sumarUno
-		 		 F< Dominio, Rango> sumarUno
-		 		 
-				 Function<Integer, Integer> sumarUno = x -> x+1;
-				 var v = sumarUno.apply(5);
-				 System.out.println(v);
+		// DEBER:
+		
+		String txt = "hola mundo java hola abc";
+//		String [] words = txt.split(" ");
+		
+		Function<String, String[]> f = cadena -> cadena.split(" ");
+
+		Function<String[], List<Par>> g = arregloStrings -> {
 			
-				Pero, en esta ocasión, el Function es de esta manera:
-			    	
-			    	F< F<I,I> , F<F<I,I>,F<I,I>>> compo
-		 		    F< Dominio,       Rango     > compo
-			 */
-		
-			Function<Function<Integer, Integer>, Function<Function<Integer, Integer>, Function<Integer, Integer>>> compo = fn -> (gn -> x -> gn.apply(fn.apply(x)));
-			Integer d = compo.apply(f).apply(g).apply(2);
-			System.out.println(d);
+			List<Par> listaPares = new ArrayList<>();
+			
+			for (String palabra : arregloStrings) {
+				int contador = 0;
+				for (String palabra2 : arregloStrings) {
+					if (palabra.equals(palabra2)) {
+						contador++;
+					}
+				}
+				Par par = new Par(palabra, contador);
+				listaPares.add(par);
+			}
+			return listaPares;
+		};
 
-
+		var a = f.apply(txt);
+//		for (String string : a) {	
+//			System.out.println(string);
+//		}
 		
-		// USANDO INTERFACES:
-		IComposicion iComposicion = () -> fn -> (gn -> x -> gn.apply(fn.apply(x)));
-		var funcionCompuesta = iComposicion.composicion();
-		var fog = funcionCompuesta.apply(f).apply(g).apply(2);
-		System.out.println("fog = f(g(x)) = "+fog);
-		
-		var funcionCompuesta2 = IComposicion.composicion2();
-		var fog2 = funcionCompuesta2.apply(f).apply(g).apply(2);
-		System.out.println("fog2 = f(g(x)) = "+fog2);
-		
-		var funcionCompuesta3 = IComposicion.composicion3(g, f);
-		var fog3 = funcionCompuesta3.apply(2);
-		System.out.println("fog3 = f(g(x)) = "+fog3);
-		
-
+		var b = g.apply(a);
+		for (Par par : b) {
+			System.out.println(par);
+		}
 
 	}
 
