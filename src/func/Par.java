@@ -3,9 +3,9 @@ package func;
 public class Par {
 	
 	private String x;
-	private Integer y;
+	private Long y;
 	
-	public Par(String x, Integer y) {
+	public Par(String x, Long y) {
 		super();
 		this.x = x;
 		this.y = y;
@@ -25,17 +25,12 @@ public class Par {
 		this.x = x;
 	}
 
-	public Integer getY() {
+	public Long getY() {
 		return y;
 	}
 
-	public void setY(Integer y) {
+	public void setY(Long y) {
 		this.y = y;
 	}
 	
-	
-	
-	
-	
-
 }

@@ -1,9 +1,13 @@
 package func;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Main {
 
@@ -78,30 +82,55 @@ public class Main {
 			
 			
 			// ********************************  DEBER *******************************************
+			// 1. USANDO FOR EN funcion2:
+//			String txt = "hola mundo java hola abc";
+//			
+//			Function<String, String[]> funcion1 = cadena -> cadena.split(" ");
+//	
+//			Function<String[], List<Par>> funcion2 = arregloStrings -> {
+//				List<Par> listaPares = new ArrayList<>();
+//				for (String palabra : arregloStrings) {
+//					int contador = 0;
+//					for (String palabra2 : arregloStrings) {
+//						if (palabra.equals(palabra2)) {
+//							contador++;
+//						}
+//					}
+//					Par par = new Par(palabra, contador);
+//					listaPares.add(par);
+//				}
+//				return listaPares;
+//			};
+//			
+//			// Sin usar la funcion de composición:
+//			List<Par> listaPares = funcion2.apply(funcion1.apply(txt));
+//			for (Par par : listaPares) {
+//				System.out.println(par);
+//			}
+//	
+//			// Usando la función de composición:
+//			List<Par> listaPares2 = IComposicion.<String, String[], List<Par>>composicion5().apply(funcion1).apply(funcion2).apply(txt);
+//			for (Par par : listaPares2) {
+//				System.out.println(par);
+//			}
+			
+			// 2. USANDO STREAMS EN funcion2:
 			String txt = "hola mundo java hola abc";
 			
 			Function<String, String[]> funcion1 = cadena -> cadena.split(" ");
-	
+
 			Function<String[], List<Par>> funcion2 = arregloStrings -> {
-				List<Par> listaPares = new ArrayList<>();
-				for (String palabra : arregloStrings) {
-					int contador = 0;
-					for (String palabra2 : arregloStrings) {
-						if (palabra.equals(palabra2)) {
-							contador++;
-						}
-					}
-					Par par = new Par(palabra, contador);
-					listaPares.add(par);
-				}
-				return listaPares;
+				Stream<String> streamStrings = Arrays.stream(arregloStrings);
+				Map<String, Long> mapStrings = streamStrings.collect(Collectors.groupingBy(x -> x, Collectors.counting()));
+				
+				return mapStrings.entrySet().stream().map(x-> new Par(x.getKey(), x.getValue())).collect(Collectors.toList());
 			};
 			
-			// Sin usar la funcion de composición:
-			List<Par> listaPares = funcion2.apply(funcion1.apply(txt));
-			for (Par par : listaPares) {
-				System.out.println(par);
-			}
+//			// Sin usar la funcion de composición:
+//			List<Par> listaPares = funcion2.apply(funcion1.apply(txt));
+//			for (Par par : listaPares) {
+//				System.out.println(par);
+//			}
 	
 			// Usando la función de composición:
 			List<Par> listaPares2 = IComposicion.<String, String[], List<Par>>composicion5().apply(funcion1).apply(funcion2).apply(txt);
